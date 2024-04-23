@@ -1,6 +1,4 @@
 import {ReactNode} from 'react';
-import {Navigate, useLocation} from "react-router-dom";
-import {useAppSelector} from "../redux/hook.ts";
 import {useKeycloak} from "@react-keycloak/web";
 
 interface IProps {
@@ -8,10 +6,14 @@ interface IProps {
 }
 
 function PrivateRoute({children}: IProps) {
-  const {userInfo} = useAppSelector(state => state.user)
-  const {pathname} = useLocation();
-  const { keycloak } = useKeycloak();
+  /*const {userInfo} = useAppSelector(state => state.user)
+  const {pathname} = useLocation();*/
+  const {keycloak, initialized} = useKeycloak();
   const isLoggedIn = keycloak.authenticated;
+
+  if (!initialized) {
+    return <div>Loading...</div>;
+  }
 
   return isLoggedIn ? children : null;
 }

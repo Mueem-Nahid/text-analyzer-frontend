@@ -3,6 +3,12 @@ import {useKeycloak} from "@react-keycloak/web";
 const Nav = () => {
   const {keycloak, initialized} = useKeycloak();
 
+  console.log(keycloak)
+
+  if (!initialized) {
+    return <div>Loading...</div>
+  }
+
   return (
     <div>
       <div className="top-0 w-full flex flex-wrap">
@@ -10,7 +16,7 @@ const Nav = () => {
           <nav className="flex justify-between bg-gray-200 text-blue-800 w-screen">
             <div className="px-5 xl:px-12 py-6 flex w-full items-center">
               <h1 className="text-3xl font-bold font-heading">
-                Keycloak React AUTH.
+                Text Analyzer
               </h1>
               <ul className="hidden md:flex px-4 mx-auto font-semibold font-heading space-x-12">
                 <li>
@@ -40,9 +46,9 @@ const Nav = () => {
                     <button
                       type="button"
                       className="text-blue-800"
-                      onClick={() => keycloak.logout()}
+                      onClick={() => keycloak.logout({ redirectUri: 'http://localhost:3000/' })}
                     >
-                      Logout ({keycloak.tokenParsed.preferred_username})
+                      Logout ({keycloak?.tokenParsed?.name})
                     </button>
                   )}
                 </div>
