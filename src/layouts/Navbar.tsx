@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react'
 import {Bars3Icon, XMarkIcon,} from '@heroicons/react/24/outline'
-import {Dialog, Disclosure, Popover} from '@headlessui/react'
+import {Dialog, Disclosure} from '@headlessui/react'
 import {ChevronDownIcon} from '@heroicons/react/20/solid'
 import {useKeycloak} from "@react-keycloak/web";
 import {useAppDispatch} from "../redux/hook.ts";
@@ -11,7 +11,7 @@ function classNames(...classes: string[]) {
 }
 
 export default function Nav() {
-  const {keycloak} = useKeycloak();
+  const {keycloak, initialized} = useKeycloak();
   const dispatch = useAppDispatch()
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -26,9 +26,7 @@ export default function Nav() {
         <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
           <div className="flex lg:flex-1">
             <a href="/" className="-m-1.5 p-1.5">
-              <span className="sr-only">Text Analyzer</span>
-              <img className="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                   alt=""/>
+              <span className="font-extrabold text-3xl">Text Analyzer</span>
             </a>
           </div>
           <div className="flex lg:hidden">
@@ -41,14 +39,25 @@ export default function Nav() {
               <Bars3Icon className="h-6 w-6" aria-hidden="true"/>
             </button>
           </div>
-          <Popover.Group className="hidden lg:flex lg:gap-x-12">
-            <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
-              All
-            </a>
-          </Popover.Group>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
             {
-              !keycloak?.authenticated ?
+              !initialized &&
+                <div role="status" className="max-w-sm animate-pulse">
+                    <div className="h-6 bg-gray-200 rounded-full w-48 mt-2"></div>
+                    <span className="sr-only">Loading...</span>
+                </div>
+            }
+            {
+              initialized && !keycloak?.authenticated &&
+                <a
+                    href="/signup"
+                    className="mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                >
+                    Signup
+                </a>
+            }
+            {
+              initialized && !keycloak?.authenticated ?
                 <a
                   onClick={() => keycloak.login({redirectUri: window.location.origin})}
                   href="#"
@@ -56,22 +65,13 @@ export default function Nav() {
                 >
                   Log in <span aria-hidden="true">&rarr;</span>
                 </a> :
-                <a
-                  onClick={() => keycloak.logout({redirectUri: 'http://localhost:3000/'})}
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                >
-                  Logout ({keycloak?.tokenParsed?.name})
-                </a>
-            }
-            {
-              !keycloak?.authenticated &&
-                <a
-                    href="/signup"
-                    className="mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                >
-                    Signup
-                </a>
+                initialized && <a
+                      onClick={() => keycloak.logout({redirectUri: 'http://localhost:3000/'})}
+                      href="#"
+                      className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  >
+                      Logout ({keycloak?.tokenParsed?.name})
+                  </a>
             }
           </div>
         </nav>
