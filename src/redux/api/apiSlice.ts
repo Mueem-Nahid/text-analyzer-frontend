@@ -8,7 +8,7 @@ export const api = createApi({
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       const {user} = getState()
-      headers.set("authorization", user?.accessToken ? user?.accessToken : "")
+      headers.set("authorization", import.meta.env.VITE_KEYCLOAK_ACCESS_TOKEN ? `Bearer ${import.meta.env.VITE_KEYCLOAK_ACCESS_TOKEN}` : "")
       return headers
     }
   }),

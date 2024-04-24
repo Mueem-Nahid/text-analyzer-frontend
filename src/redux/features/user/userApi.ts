@@ -12,7 +12,7 @@ const userApi = api.injectEndpoints({
     }),
     signupUser: builder.mutation({
       query: (payload) => ({
-        url: '/auth/signup',
+        url: `${import.meta.env.VITE_KEYCLOAK_URL}/admin/realms/${import.meta.env.VITE_KEYCLOAK_REALM}/users`,
         method: 'POST',
         body: payload
       })
