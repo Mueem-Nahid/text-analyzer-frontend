@@ -4,9 +4,11 @@ import {
   useLazyCountParagraphsQuery,
   useLazyCountSentencesQuery,
   useLazyCountWordsQuery,
+  useLazyGetFullReportQuery,
   useLazyGetLongestWordsQuery,
   useSingleTextQuery
 } from "../redux/features/analyzer/analyzerApi.ts";
+import Spinner from "../components/Spinner.tsx";
 
 const AnalyzePage = () => {
   const {id} = useParams();
@@ -17,6 +19,7 @@ const AnalyzePage = () => {
   const [triggerCountParagraphs, {data: countParagraphsData}] = useLazyCountParagraphsQuery();
   const [triggerGetLongestWords, {data: longestWordsData}] = useLazyGetLongestWordsQuery();
   const [triggerCountSentences, {data: countSentencesData}] = useLazyCountSentencesQuery();
+  const [triggerFullReport, {data: fullReportData, isLoading: isReportLoading}] = useLazyGetFullReportQuery();
 
   const handleAnalysis = (analysisType: string) => {
     switch (analysisType) {
@@ -30,10 +33,12 @@ const AnalyzePage = () => {
         return triggerCountSentences(id!);
       case 'longestWords':
         return triggerGetLongestWords(id!);
+      case 'fullReport':
+        return triggerFullReport(id!);
       default:
         return null;
     }
-  }
+  };
 
   return (
     <section className="relative isolate overflow-hidden bg-white px-6 py-24 sm:py-32 lg:px-8">
@@ -131,7 +136,7 @@ const AnalyzePage = () => {
           </dl>
           {
             longestWordsData?.data && longestWordsData?.data?.longestWords &&
-              <div className="mt-16 mx-auto flex max-w-xs flex-col gap-y-4">
+              <div className="mt-16 mx-auto flex max-w-xs flex-col gap-y-4 justify-center items-center">
                   <h2 className="text-base leading-7 text-gray-600">Longest words:</h2>
                   <ul className="max-w-md space-y-1 text-gray-600 list-disc list-inside dark:text-gray-600">
                     {
@@ -143,6 +148,36 @@ const AnalyzePage = () => {
                     }
                   </ul>
               </div>
+          }
+        </div>
+
+        <div className="mt-20 mx-auto max-w-7xl px-6 lg:px-8 flex flex-col justify-center items-center">
+          <button
+            className="mb-5 focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900"
+            onClick={() => handleAnalysis('fullReport')}
+          >
+            {
+              isReportLoading ? <Spinner w={4} h={4}/> : "View full report"
+            }
+          </button>
+          {
+            fullReportData?.data &&
+              <ul className="max-w-md space-y-1 text-gray-600 list-disc list-inside dark:text-gray-600">
+                  <li>Words: {fullReportData?.data?.words}</li>
+                  <li>Characters: {fullReportData?.data?.characters}</li>
+                  <li>Paragraphs: {fullReportData?.data?.paragraphs}</li>
+                  <li>Sentences: {fullReportData?.data?.sentences}</li>
+                  <li>
+                      Longest words:
+                      <ol className="ps-5 mt-2 space-y-1 list-decimal list-inside">
+                        {
+                          fullReportData?.data?.longestWords.map((word: string, i: string) => (
+                            <li key={i}>{word}</li>
+                          ))
+                        }
+                      </ol>
+                  </li>
+              </ul>
           }
         </div>
       </div>

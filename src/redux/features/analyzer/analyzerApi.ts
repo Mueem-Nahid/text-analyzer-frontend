@@ -46,6 +46,9 @@ const analyzerApi = api.injectEndpoints({
       }),
       invalidatesTags: ['deleteText']
     }),
+    getFullReport: builder.query({
+      query: (id: string) => `/analyzer/report/${id}/`,
+    }),
   })
 })
 
@@ -59,5 +62,6 @@ export const {
   useLazyCountParagraphsQuery,
   useLazyCountSentencesQuery,
   useLazyGetLongestWordsQuery,
-  useLazyCountWordsQuery
+  useLazyCountWordsQuery,
+  useLazyGetFullReportQuery
 } = analyzerApi;
