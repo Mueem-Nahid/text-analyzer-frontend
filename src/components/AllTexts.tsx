@@ -1,3 +1,5 @@
+import {TrashIcon} from '@heroicons/react/24/outline'
+
 type IProps = {
   data: {
     _id: string,
@@ -43,10 +45,12 @@ const AllTexts = ({data}: IProps) => {
                   {item.text.substring(0, 30)}...
                 </td>
                 <td className="px-6 py-4">
-                  Link
+                  <a href={`/analyze/${item._id}`}>Analyze</a>
                 </td>
                 <td className="px-6 py-4">
-                  <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                  <button type="button">
+                    <TrashIcon className="h-6 w-6 text-red-600" aria-hidden="true"/>
+                  </button>
                 </td>
               </tr>
             )) :

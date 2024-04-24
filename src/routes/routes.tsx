@@ -4,6 +4,7 @@ import PrivateRoute from "./PrivateRoute.tsx";
 import HomePage from "../pages/HomePage.tsx";
 import StartAnalysisPage from "../pages/StartAnalysisPage.tsx";
 import Signup from "../pages/Signup.tsx";
+import AnalyzePage from "../pages/AnalyzePage.tsx";
 
 
 const routes = createBrowserRouter([
@@ -25,6 +26,13 @@ const routes = createBrowserRouter([
         element:
           <PrivateRoute>
             <StartAnalysisPage />
+          </PrivateRoute>,
+      },
+      {
+        path: '/analyze/:id',
+        element:
+          <PrivateRoute>
+            <AnalyzePage />
           </PrivateRoute>,
       },
     ]

@@ -54,9 +54,9 @@ export const {
   useSingleTextQuery,
   useUpdateTextMutation,
   useAllTextQuery,
-  useCountWordsQuery,
-  useCountCharactersQuery,
-  useCountParagraphsQuery,
-  useCountSentencesQuery,
-  useGetLongestWordsQuery
+  useLazyCountCharactersQuery,
+  useLazyCountParagraphsQuery,
+  useLazyCountSentencesQuery,
+  useLazyGetLongestWordsQuery,
+  useLazyCountWordsQuery
 } = analyzerApi;
