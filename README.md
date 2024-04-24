@@ -42,7 +42,7 @@ To run the server locally, execute:
 
 The server will start listening on port 3000 by default. You can then access the API endpoints using tools like Postman or curl.
 
-## API Documentation
+## Technology
 
 - React
 - Tailwind css
