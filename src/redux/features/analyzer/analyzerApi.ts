@@ -22,7 +22,7 @@ const analyzerApi = api.injectEndpoints({
     }),
     allText: builder.query({
       query: () => "/analyzer",
-      providesTags: ['addText'],
+      providesTags: ['addText', 'deleteText'],
     }),
     addText: builder.mutation({
       query: (payload) => ({
@@ -44,6 +44,7 @@ const analyzerApi = api.injectEndpoints({
         url: `/analyzer/${id}`,
         method: 'DELETE',
       }),
+      invalidatesTags: ['deleteText']
     }),
   })
 })
