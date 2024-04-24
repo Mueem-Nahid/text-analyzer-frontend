@@ -1,11 +1,15 @@
 import {useState} from "react";
-import {useAddTextMutation} from "../redux/features/analyzer/analyzerApi.ts";
+import {useAddTextMutation, useAllTextQuery} from "../redux/features/analyzer/analyzerApi.ts";
 import {toast} from "react-toastify";
 import AllTexts from "../components/AllTexts.tsx";
 
 const StartAnalysisPage = () => {
   const [text, setText] = useState<string>("");
 
+  const {data, isLoading: allTextLoading} = useAllTextQuery({
+    refetchOnMountOrArgChange: true
+  });
+  console.log(data?.data)
   const [addText, {isLoading}] = useAddTextMutation();
 
   const handleSubmit = async (e: { preventDefault: () => void; }) => {
@@ -41,7 +45,7 @@ const StartAnalysisPage = () => {
               name="text"
               required
               onChange={(e) => setText(e.target.value)}
-              rows={10}
+              rows={5}
               className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               value={text}
             />
@@ -52,7 +56,11 @@ const StartAnalysisPage = () => {
           </form>
         </div>
       </div>
-      <AllTexts/>
+      {
+        allTextLoading ?
+          <div>Loading...</div> :
+          <AllTexts data={data?.data} />
+      }
     </div>
   );
 };

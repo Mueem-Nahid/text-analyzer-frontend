@@ -21,7 +21,8 @@ const analyzerApi = api.injectEndpoints({
       query: (id: string) => `/analyzer/${id}/longest-words`,
     }),
     allText: builder.query({
-      query: () => `/analyzer`,
+      query: () => "/analyzer",
+      providesTags: ['addText'],
     }),
     addText: builder.mutation({
       query: (payload) => ({
@@ -29,6 +30,7 @@ const analyzerApi = api.injectEndpoints({
         method: 'POST',
         body: payload
       }),
+      invalidatesTags: ['addText']
     }),
     updateText: builder.mutation({
       query: ({id, updatedData}) => ({

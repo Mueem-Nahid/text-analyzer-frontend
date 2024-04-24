@@ -1,4 +1,12 @@
-const AllTexts = () => {
+type IProps = {
+  data: {
+    _id: string,
+    text: string,
+  }[]
+}
+
+const AllTexts = ({data}: IProps) => {
+
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg mb-10">
       <h1 className="my-8 text-4xl font-bold tracking-tight text-gray-900 sm:text-xl">
@@ -22,21 +30,29 @@ const AllTexts = () => {
         </tr>
         </thead>
         <tbody>
-        <tr
-          className="odd:bg-white even:bg-gray-50 border-b dark:border-gray-700">
-          <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-black">
-            1
-          </th>
-          <td className="px-6 py-4">
-            This is text
-          </td>
-          <td className="px-6 py-4">
-            Link
-          </td>
-          <td className="px-6 py-4">
-            <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-          </td>
-        </tr>
+        {
+          data?.length && data?.length > 0 ?
+            data.map((item, index) => (
+              <tr
+                key={item._id}
+                className="odd:bg-white even:bg-gray-50 border-b dark:border-gray-700">
+                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-black">
+                  {index + 1}
+                </th>
+                <td className="px-6 py-4">
+                  {item.text.substring(0, 30)}...
+                </td>
+                <td className="px-6 py-4">
+                  Link
+                </td>
+                <td className="px-6 py-4">
+                  <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                </td>
+              </tr>
+            )) :
+            <p>No texts.</p>
+        }
+
         </tbody>
       </table>
     </div>
