@@ -44,12 +44,15 @@ const Signup = () => {
         toast.error(res?.error?.data?.errorMessage);
       }
     } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      toast.error(error);
       console.log(error)
     }
   }
 
   return (
-    <div>
+    <div className="mt-20">
       <form className="max-w-sm mx-auto" onSubmit={handleSubmit}>
         <div className="mb-5">
           <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">First name</label>
