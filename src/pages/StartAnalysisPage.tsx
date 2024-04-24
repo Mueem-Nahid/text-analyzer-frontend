@@ -9,14 +9,13 @@ const StartAnalysisPage = () => {
   const {data, isLoading: allTextLoading} = useAllTextQuery({
     refetchOnMountOrArgChange: true
   });
-  console.log(data?.data)
+
   const [addText, {isLoading}] = useAddTextMutation();
 
   const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     try {
       const res = await addText({text});
-      console.log("res: ", res);
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
       if (res?.data?.success) {
@@ -59,7 +58,7 @@ const StartAnalysisPage = () => {
       {
         allTextLoading ?
           <div>Loading...</div> :
-          <AllTexts data={data?.data} />
+          <AllTexts data={data?.data}/>
       }
     </div>
   );

@@ -1,10 +1,10 @@
 export interface IUserInfo {
-  id: string,
+  // id: string,
   email: string,
-  name: string
+  // name: string
 }
 
 export interface IUser {
   userInfo: IUserInfo | null;
-  accessToken: string | null
+  // accessToken: string | null
 }

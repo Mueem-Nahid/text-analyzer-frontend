@@ -9,6 +9,7 @@ export const api = createApi({
       // @ts-ignore
       const {user} = getState()
       headers.set("authorization", import.meta.env.VITE_KEYCLOAK_ACCESS_TOKEN ? `Bearer ${import.meta.env.VITE_KEYCLOAK_ACCESS_TOKEN}` : "")
+      headers.set("email", user.userInfo || "");
       return headers
     }
   }),

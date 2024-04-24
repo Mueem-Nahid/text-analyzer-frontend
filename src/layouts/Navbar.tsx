@@ -1,8 +1,10 @@
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import {Bars3Icon, XMarkIcon,} from '@heroicons/react/24/outline'
 import {Dialog, Disclosure, Popover} from '@headlessui/react'
 import {ChevronDownIcon} from '@heroicons/react/20/solid'
 import {useKeycloak} from "@react-keycloak/web";
+import {useAppDispatch} from "../redux/hook.ts";
+import {setCredentials} from "../redux/features/user/userSlice.ts";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
@@ -10,8 +12,13 @@ function classNames(...classes: string[]) {
 
 export default function Nav() {
   const {keycloak} = useKeycloak();
+  const dispatch = useAppDispatch()
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
+  useEffect(() => {
+    dispatch(setCredentials({"userInfo": keycloak?.tokenParsed?.email}));
+  }, [keycloak?.tokenParsed?.email])
 
   return (
     <div className="bg-white">
