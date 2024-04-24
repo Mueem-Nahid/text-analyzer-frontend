@@ -9,19 +9,15 @@ function classNames(...classes: string[]) {
 }
 
 export default function Nav() {
-  const {keycloak, initialized} = useKeycloak();
+  const {keycloak} = useKeycloak();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-
-  if (!initialized) {
-    return <div>Loading...</div>
-  }
 
   return (
     <header className="bg-white">
       <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
         <div className="flex lg:flex-1">
-          <a href="#" className="-m-1.5 p-1.5">
+          <a href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">Text Analyzer</span>
             <img className="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt=""/>
           </a>
@@ -45,7 +41,7 @@ export default function Nav() {
           {
             !keycloak?.authenticated ?
               <a
-                onClick={() => keycloak.login()}
+                onClick={() => keycloak.login({redirectUri: window.location.origin})}
                 href="#"
                 className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
               >
@@ -59,12 +55,15 @@ export default function Nav() {
                 Logout ({keycloak?.tokenParsed?.name})
               </a>
           }
-          <a
-            href="/signup"
-            className="mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-          >
-            Signup
-          </a>
+          {
+            !keycloak?.authenticated &&
+              <a
+                  href="/signup"
+                  className="mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+              >
+                  Signup
+              </a>
+          }
         </div>
       </nav>
       <Dialog as="div" className="lg:hidden" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
@@ -72,7 +71,7 @@ export default function Nav() {
         <Dialog.Panel
           className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between">
-            <a href="#" className="-m-1.5 p-1.5">
+            <a href="/" className="-m-1.5 p-1.5">
               <span className="sr-only">Text Analyzer</span>
               <img
                 className="h-8 w-auto"
