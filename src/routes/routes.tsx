@@ -2,14 +2,14 @@ import {createBrowserRouter} from "react-router-dom";
 import App from "../App.tsx";
 import PrivateRoute from "./PrivateRoute.tsx";
 import HomePage from "../pages/HomePage.tsx";
-import SecuredPage from "../pages/SecuredPage.tsx";
+import StartAnalysisPage from "../pages/StartAnalysisPage.tsx";
 import Signup from "../pages/Signup.tsx";
 
 
 const routes = createBrowserRouter([
   {
     path: '/',
-    element: <App children/>,
+    element: <App />,
     children: [
       {
         index: true,
@@ -21,10 +21,10 @@ const routes = createBrowserRouter([
         element: <Signup/>
       },
       {
-        path: '/secured',
+        path: '/start-analysis',
         element:
           <PrivateRoute>
-            <SecuredPage />
+            <StartAnalysisPage />
           </PrivateRoute>,
       },
     ]

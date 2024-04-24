@@ -29,7 +29,8 @@ const Signup = () => {
         "enabled": true,
       });
 
-      // @ts-ignore
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
       if (!res?.data) {
         toast.success("Signup successful! Please login.");
         setFirstName("");
@@ -38,7 +39,8 @@ const Signup = () => {
         setUsername("");
         setPassword("");
       } else {
-        // @ts-ignore
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
         toast.error(res?.error?.data?.errorMessage);
       }
     } catch (error) {
