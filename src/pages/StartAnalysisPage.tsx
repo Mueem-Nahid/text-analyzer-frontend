@@ -1,6 +1,7 @@
 import {useState} from "react";
 import {useAddTextMutation} from "../redux/features/analyzer/analyzerApi.ts";
 import {toast} from "react-toastify";
+import AllTexts from "../components/AllTexts.tsx";
 
 const StartAnalysisPage = () => {
   const [text, setText] = useState<string>("");
@@ -28,7 +29,7 @@ const StartAnalysisPage = () => {
   }
 
   return (
-    <div className="mx-auto max-w-2xl mt-20">
+    <div className="mx-auto max-w-3xl mt-20">
       <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-xl">
         Write a few sentences to start analysis
       </h1>
@@ -51,6 +52,7 @@ const StartAnalysisPage = () => {
           </form>
         </div>
       </div>
+      <AllTexts/>
     </div>
   );
 };
