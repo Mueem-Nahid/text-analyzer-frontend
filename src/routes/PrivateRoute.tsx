@@ -1,5 +1,6 @@
 import {ReactNode} from 'react';
 import {useKeycloak} from "@react-keycloak/web";
+import {Navigate} from "react-router-dom";
 
 interface IProps {
   children: ReactNode
@@ -15,7 +16,7 @@ function PrivateRoute({children}: IProps) {
     return <div>Loading...</div>;
   }
 
-  return isLoggedIn ? children : null;
+  return isLoggedIn ? children : <Navigate to="/signup"></Navigate>;
 }
 
 export default PrivateRoute;
