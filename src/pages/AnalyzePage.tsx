@@ -8,12 +8,11 @@ import {
   useLazyGetLongestWordsQuery,
   useSingleTextQuery
 } from "../redux/features/analyzer/analyzerApi.ts";
-import Spinner from "../components/Spinner.tsx";
+import NotFoundPage from "./404.tsx";
 
 const AnalyzePage = () => {
   const {id} = useParams();
   const {data, isLoading} = useSingleTextQuery(id!);
-
   const [triggerCountWords, {data: countWordsData}] = useLazyCountWordsQuery();
   const [triggerCountCharacters, {data: countCharactersData}] = useLazyCountCharactersQuery();
   const [triggerCountParagraphs, {data: countParagraphsData}] = useLazyCountParagraphsQuery();
@@ -21,20 +20,24 @@ const AnalyzePage = () => {
   const [triggerCountSentences, {data: countSentencesData}] = useLazyCountSentencesQuery();
   const [triggerFullReport, {data: fullReportData, isLoading: isReportLoading}] = useLazyGetFullReportQuery();
 
+  if(!id || !data) {
+    return <NotFoundPage />
+  }
+
   const handleAnalysis = (analysisType: string) => {
     switch (analysisType) {
       case 'words':
-        return triggerCountWords(id!);
+        return triggerCountWords(id);
       case 'characters':
-        return triggerCountCharacters(id!);
+        return triggerCountCharacters(id);
       case 'paragraphs':
-        return triggerCountParagraphs(id!);
+        return triggerCountParagraphs(id);
       case 'sentences':
-        return triggerCountSentences(id!);
+        return triggerCountSentences(id);
       case 'longestWords':
-        return triggerGetLongestWords(id!);
+        return triggerGetLongestWords(id);
       case 'fullReport':
-        return triggerFullReport(id!);
+        return triggerFullReport(id);
       default:
         return null;
     }
@@ -157,7 +160,7 @@ const AnalyzePage = () => {
             onClick={() => handleAnalysis('fullReport')}
           >
             {
-              isReportLoading ? <Spinner w={4} h={4}/> : "View full report"
+              isReportLoading ? "Loading report" : "View full report"
             }
           </button>
           {
